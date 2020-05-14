@@ -1,0 +1,122 @@
+package in.automationtesting.practice;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+import java.util.concurrent.TimeUnit;
+
+public class HomePage {
+
+	private WebDriver driver;
+	String url = "http://practice.automationtesting.in/";
+	SoftAssert softAssert = new SoftAssert();
+	
+	
+
+	@Parameters({ "browser" })
+	@BeforeMethod(alwaysRun = true)
+	private void setUp(String browser) {
+		// Create driver
+		switch (browser) {
+		case "chrome":
+			System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+			driver = new ChromeDriver();
+			break;
+		case "firefox":
+			System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+			driver = new FirefoxDriver();
+			break;
+		default:
+			System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+			driver = new ChromeDriver();
+			break;
+		}
+		driver.manage().window().maximize();
+
+	}
+
+	@Test
+	public void homePage() {
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		System.out.println("Starting threeSlidersTest!");
+
+//		1) Open the browser	
+//		2) Enter the URL “http://practice.automationtesting.in/”
+		driver.get(url);
+		System.out.println("Page is opened.");
+
+//		3) Click on Shop Menu
+		WebElement shopButton = driver.findElement(By.xpath("//*[@id=\"menu-item-40\"]/a"));
+		shopButton.click();
+		
+//		4) Now click on Home menu button
+		WebElement homeButton = driver
+				.findElement(By.xpath("//div[@id='site-logo']//img[@alt='Automation Practice Site']"));
+		homeButton.click();
+//		5) Test whether the Home page has Three Arrivals only
+		List<WebElement> activeButtons = driver.findElements(By.xpath("//a[@rel='nofollow']"));
+		int actualArrivalCount = activeButtons.size();
+		System.out.println("Arrival Count: " + actualArrivalCount);
+		
+//		6) The Home page must contains only three Arrivals
+		int expectedArrivalCount = 3;
+
+		softAssert.assertEquals(actualArrivalCount, expectedArrivalCount);
+
+//		7) Now click the image in the Arrivals
+		WebElement SeleniumRubyImage = driver.findElement(By.xpath("//img[@alt='Selenium Ruby']"));
+		SeleniumRubyImage.click();
+		
+//		8) Test whether it is navigating to next page where the user can add that book into his basket.
+		String expectedURL = "http://practice.automationtesting.in/product/selenium-ruby/";
+		String actualURL = driver.getCurrentUrl();
+		System.out.println("Actual URL: "+actualURL);
+		softAssert.assertEquals(actualURL, expectedURL, "Actual page is not as expected");
+		
+//		9) Image should be clickable and shoul navigate to next page where user can add that book to his basket
+		WebElement addToBasketButton = driver.findElement(By.xpath("//*[@id=\"product-160\"]/div[2]/form/button"));
+		softAssert.assertTrue(addToBasketButton.isDisplayed());
+		
+//		10) Click on Description tab for the book you clicked on.
+		WebElement descriptionTab = driver.findElement(By.xpath("//a[@href='#tab-description']"));
+		descriptionTab.click();
+		
+//		11) There should be a description regarding that book the user clicked on
+		WebElement descriptionText = driver.findElement(By.xpath("//div[@id='tab-description']/p"));
+		String actualDescriptionText = descriptionText.getText();
+		System.out.println("Actual description: "+actualDescriptionText);
+		softAssert.assertTrue(actualDescriptionText.contains("The Selenium WebDriver Recipes book"));
+		
+//		12) Now clock on Reviews tab for the book you clicked on.
+		WebElement reviewTab = driver.findElement(By.xpath("//a[@href='#tab-reviews']"));
+		reviewTab.click();
+		
+//     13) There should be a Reviews regarding that book the user clicked on
+		WebElement reviewText = driver.findElement(By.xpath("//div[@id='comments']/h2[@class='woocommerce-Reviews-title']"));
+		String actualReviewText = reviewText.getText();
+		System.out.println("Actual Review text: "+actualReviewText);
+		softAssert.assertTrue(actualReviewText.contains("Reviews"));
+		
+		
+		
+		
+		softAssert.assertAll();
+		
+		
+	}
+
+	@AfterMethod(alwaysRun = true)
+	private void tearDown() {
+		// Close browser
+		driver.quit();
+	}
+}
