@@ -1,0 +1,49 @@
+package Pages;
+
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Home {
+	WebDriver driver;
+	@FindBy(xpath = "//*[@id=\"menu-item-40\"]/a")
+	WebElement shopButton;
+
+	@FindBy(xpath = "//a[@rel='nofollow']")
+	List<WebElement> activeButtons;
+
+	@FindBy(xpath = "//img[@alt='Selenium Ruby']")
+	WebElement seleniumRubyImage;
+
+	@FindBy(xpath = "//div[@id='site-logo']//img[@alt='Automation Practice Site']")
+	WebElement homeButton;
+
+	public Home(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+
+	public void clickShopButton() {
+		shopButton.click();
+	}
+
+	public void clickHomeButton() {
+		homeButton.click();
+	}
+
+	public void printActualArrivalCount() {
+		int actualArrivalCount = (activeButtons).size();
+		System.out.println("Arrival Count: " + actualArrivalCount);
+	}
+	public int actualArrivalCount() {
+		return activeButtons.size();
+	}
+	
+	public void clickSeleniumRybyImage() {
+		seleniumRubyImage.click();
+	}
+
+}
