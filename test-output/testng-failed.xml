@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [HomePageTestsSuite]">
+  <test thread-count="5" name="homePageTests(failed)">
+    <classes>
+      <class name="in.automationtesting.practice.homepagetests.HomePageTests">
+        <methods>
+          <include name="arrivalDescriptionTest"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- in.automationtesting.practice.homepagetests.HomePageTests -->
+    </classes>
+  </test> <!-- homePageTests(failed) -->
+</suite> <!-- Failed suite [HomePageTestsSuite] -->
