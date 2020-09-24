@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [HomePage]">
+  <test thread-count="5" name="homePage(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="in.automationtesting.practice.HomePage">
+        <methods>
+          <include name="setUp"/>
+          <include name="homePage"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- in.automationtesting.practice.HomePage -->
+    </classes>
+  </test> <!-- homePage(failed) -->
+</suite> <!-- Failed suite [HomePage] -->
